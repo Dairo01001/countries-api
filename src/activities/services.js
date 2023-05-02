@@ -3,12 +3,28 @@ const CountriesService = require('../countries/services')
 const { Activity, Country, CountryActivity } = require('../db')
 
 async function findAll () {
-  return await Activity.findAll()
+  return await Activity.findAll({
+    attributes: ['id', 'name', 'difficulty', 'duration', 'season']
+  })
 }
 
 async function findOne (id) {
   return await Activity.findByPk(id, {
-    include: [{ model: Country, required: false }]
+    include: [{
+      model: Country,
+      required: false,
+      attributes: [
+        'id',
+        'name',
+        'flag',
+        'capital',
+        'region',
+        'subregion',
+        'area',
+        'population'
+      ]
+    }],
+    attributes: ['id', 'name', 'difficulty', 'duration', 'season']
   })
 }
 
